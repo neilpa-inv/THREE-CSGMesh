@@ -1,11 +1,12 @@
 "use strict"
 
-//import*as THREE from "./lib/three.module.js";
+const THREE = require("./lib/three.js");
 
-import*as THREE from "https://threejs.org/build/three.module.js";
+// import*as THREE from "https://threejs.org/build/three.module.js";
 
-let { BufferGeometry, Vector3, Vector2} = THREE;
-import {CSG, Vertex, Vector, Polygon} from "./csg-lib.js"
+let { BufferGeometry, Vector3, Vector2 } = THREE;
+const CSGLib = require("./csg-lib");
+const {CSG, Vertex, Vector, Polygon} = CSGLib;
 //import {Geometry} from "../three.js-dev/examples/jsm/deprecated/Geometry.js";
 
 CSG.fromGeometry = function(geom,objectIndex) {
@@ -215,6 +216,6 @@ CSG.toMesh = function(csg, toMatrix, toMaterial) {
     return m
 }
 
-import "./csg-worker.js"
+require("./csg-worker.js")
 
-export default CSG
+module.exports = CSG;
