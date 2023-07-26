@@ -1,5 +1,3 @@
-"use strict"
-
 import { BufferAttribute, BufferGeometry, Face3, Matrix3, Matrix4, Mesh, Vector2, Vector3 } from "three";
 import {CSG, Vertex, Vector, Polygon} from "./csg-lib.js"
 //import {Geometry} from "../three.js-dev/examples/jsm/deprecated/Geometry.js";
