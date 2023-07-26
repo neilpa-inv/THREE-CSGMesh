@@ -1,6 +1,6 @@
-import { BufferAttribute, BufferGeometry, Face3, Matrix3, Matrix4, Mesh, Vector2, Vector3 } from "three";
-import {CSG, Vertex, Vector, Polygon} from "./csg-lib.js"
-//import {Geometry} from "../three.js-dev/examples/jsm/deprecated/Geometry.js";
+import { BufferAttribute, BufferGeometry, Matrix3, Matrix4, Mesh, Vector2, Vector3 } from "three";
+import { Face3 } from "three/examples/jsm/deprecated/Geometry.js";
+import { CSG, Vertex, Vector, Polygon } from "./csg-lib.js"
 
 CSG.fromGeometry = function(geom,objectIndex) {
     let polys = []
