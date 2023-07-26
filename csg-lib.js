@@ -432,7 +432,7 @@ CSG.fromJSON=function(json){
     return CSG.fromPolygons(json.polygons.map(p=>new Polygon(p.vertices.map(v=> new Vertex(v.pos,v.normal,v.uv)),p.shared)))
 }
 
-module.exports = {CSG,Vertex,Vector,Polygon,Plane}
+export {CSG,Vertex,Vector,Polygon,Plane}
 
 
 

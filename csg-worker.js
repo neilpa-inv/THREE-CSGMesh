@@ -1,4 +1,5 @@
-const CSG = require("./csg-lib.js");
+import {CSG} from "./csg-lib.js"
+
 
 let gWorkersStarted = false;
 let gWorker;
@@ -72,4 +73,4 @@ CSG.doAsync=(a,op,b)=>{
     })
 }
 
-module.exports = CSG;
+export default {}
