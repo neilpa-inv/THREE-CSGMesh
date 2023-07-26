@@ -1,10 +1,6 @@
 "use strict"
 
-//import*as THREE from "./lib/three.module.js";
-
-import*as THREE from "https://threejs.org/build/three.module.js";
-
-let { BufferGeometry, Vector3, Vector2} = THREE;
+import { BufferAttribute, BufferGeometry, Face3, Matrix3, Matrix4, Mesh, Vector2, Vector3 } from "three";
 import {CSG, Vertex, Vector, Polygon} from "./csg-lib.js"
 //import {Geometry} from "../three.js-dev/examples/jsm/deprecated/Geometry.js";
 
@@ -73,8 +69,8 @@ CSG.fromGeometry = function(geom,objectIndex) {
     return CSG.fromPolygons(polys)
 }
 
-let ttvv0 = new THREE.Vector3()
-let tmpm3 = new THREE.Matrix3();
+let ttvv0 = new Vector3()
+let tmpm3 = new Matrix3();
 CSG.fromMesh = function(mesh,objectIndex) {
     let csg = CSG.fromGeometry(mesh.geometry,objectIndex)
     tmpm3.getNormalMatrix(mesh.matrix);
@@ -120,10 +116,10 @@ CSG.toGeometry = function(csg, buffered=true) {
             let pvlen = pvs.length
 
             for (let j = 0; j < pvlen; j++)
-                vs.push(new THREE.Vector3().copy(pvs[j].pos))
+                vs.push(new Vector3().copy(pvs[j].pos))
 
             for (let j = 3; j <= pvlen; j++) {
-                let fc = new THREE.Face3();
+                let fc = new Face3();
                 let fuv = []
                 fvuv.push(fuv)
                 let fnml = fc.vertexNormals;
@@ -131,23 +127,23 @@ CSG.toGeometry = function(csg, buffered=true) {
                 fc.b = v0 + j - 2;
                 fc.c = v0 + j - 1;
 
-                fnml.push(new THREE.Vector3().copy(pvs[0].normal))
-                fnml.push(new THREE.Vector3().copy(pvs[j - 2].normal))
-                fnml.push(new THREE.Vector3().copy(pvs[j - 1].normal))
-                fuv.push(new THREE.Vector3().copy(pvs[0].uv))
-                fuv.push(new THREE.Vector3().copy(pvs[j - 2].uv))
-                fuv.push(new THREE.Vector3().copy(pvs[j - 1].uv))
+                fnml.push(new Vector3().copy(pvs[0].normal))
+                fnml.push(new Vector3().copy(pvs[j - 2].normal))
+                fnml.push(new Vector3().copy(pvs[j - 1].normal))
+                fuv.push(new Vector3().copy(pvs[0].uv))
+                fuv.push(new Vector3().copy(pvs[j - 2].uv))
+                fuv.push(new Vector3().copy(pvs[j - 1].uv))
 
-                fc.normal = new THREE.Vector3().copy(p.plane.normal)
+                fc.normal = new Vector3().copy(p.plane.normal)
                 geom.faces.push(fc)
             }
         }
-        geom = new THREE.BufferGeometry().fromGeometry(geom)
+        geom = new BufferGeometry().fromGeometry(geom)
         geom.verticesNeedUpdate = geom.elementsNeedUpdate = geom.normalsNeedUpdate = true;
     }else { //BufferGeometry path
         let triCount = 0;
         ps.forEach(p=>triCount += (p.vertices.length - 2))
-         geom = new THREE.BufferGeometry()
+         geom = new BufferGeometry()
 
         let vertices = nbuf3(triCount * 3 * 3)
         let normals = nbuf3(triCount * 3 * 3)
@@ -181,10 +177,10 @@ CSG.toGeometry = function(csg, buffered=true) {
             }
         }
         )
-        geom.setAttribute('position', new THREE.BufferAttribute(vertices.array,3));
-        geom.setAttribute('normal', new THREE.BufferAttribute(normals.array,3));
-        uvs && geom.setAttribute('uv', new THREE.BufferAttribute(uvs.array,2));
-        colors && geom.setAttribute('color', new THREE.BufferAttribute(colors.array,3));
+        geom.setAttribute('position', new BufferAttribute(vertices.array,3));
+        geom.setAttribute('normal', new BufferAttribute(normals.array,3));
+        uvs && geom.setAttribute('uv', new BufferAttribute(uvs.array,2));
+        colors && geom.setAttribute('color', new BufferAttribute(colors.array,3));
         if(grps.length){
             let index = []
             let gbase=0;
@@ -202,11 +198,11 @@ CSG.toGeometry = function(csg, buffered=true) {
 
 CSG.toMesh = function(csg, toMatrix, toMaterial) {
     let geom = CSG.toGeometry(csg);
-    let inv = new THREE.Matrix4().copy(toMatrix).invert();
+    let inv = new Matrix4().copy(toMatrix).invert();
     geom.applyMatrix4(inv);
     geom.computeBoundingSphere();
     geom.computeBoundingBox();
-    let m = new THREE.Mesh(geom,toMaterial);
+    let m = new Mesh(geom,toMaterial);
     m.matrix.copy(toMatrix);
     m.matrix.decompose(m.position, m.quaternion, m.scale)
     m.rotation.setFromQuaternion(m.quaternion)
